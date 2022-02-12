@@ -64,6 +64,10 @@ class LoginViewController: UIViewController {
         if isValidUserCredentials() {
             setLoggingIn(true)
             OTMClient.createSession(username: emailTextField.text!, password: passwordTextField.text!, completion: handleLoginResponse)
+            
+//            #warning("REMEMBER UNCOMMENT LINE ABOVE AND DELETE SEGUE BELOW 👇")
+//            self.performSegue(withIdentifier: "Authenticated", sender: self)
+            
         } else { self.showAlert(title: OTMError.loginFailure,message: OTMError.missingUserCredential.rawValue) }
     }
     

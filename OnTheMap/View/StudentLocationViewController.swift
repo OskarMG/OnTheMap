@@ -121,7 +121,10 @@ class StudentLocationViewController: UIViewController {
     
     @IBAction func onSubmitTap(_ sender: UIButton) {
         if let text = textField.text, text != Message.insertLink, !text.isOnlyWhiteSpaces(), let url = URL(string: text), url.isValid() {
-            studentRequest.mapString = textField.text ?? ""
+            studentRequest.mediaURL = textField.text ?? ""
+            
+            print("\n\n // Submitted StudentLocation Request: //", studentRequest, "\n\n")
+            
             switch studentLocationAction {
                 case .add: OTMClient.addStudentLocation(body: studentRequest, completion: handleStudentActionResponse)
                 case .override: OTMClient.updateStudentLocation(body: studentRequest, completion: handleStudentActionResponse)
@@ -141,7 +144,7 @@ extension StudentLocationViewController {
         }
         
         self.coordinate = coordinate
-        studentRequest = StudentLocationRequest(uniqueKey: OTMClient.Auth.sessionId, firstName: "Osukaru", lastName: "Martinesu", mapString: textField.text ?? "", mediaURL: "", latitude: coordinate.longitude, longitude: coordinate.longitude)
+        studentRequest = StudentLocationRequest(uniqueKey: OTMClient.Auth.sessionId, firstName: "Osukaru", lastName: "Martinesu", mapString: textField.text ?? "", mediaURL: "", latitude: coordinate.latitude, longitude: coordinate.longitude)
         showMap()
     }
     

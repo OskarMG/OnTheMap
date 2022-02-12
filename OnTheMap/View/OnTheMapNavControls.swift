@@ -33,12 +33,14 @@ class OnTheMapNavControls: UIViewController {
     }
     
     func getMyLocation() -> StudentLocation? {
-        return (StudentModel.locationList.filter { $0.uniqueKey == OTMClient.Auth.sessionId }).first
+        return (StudentModel.locationList.filter { $0.objectId == OTMClient.Auth.objectId }).first
     }
     
     private func isAddedLocation() -> Bool {
         for studentLocation in StudentModel.locationList {
-            return studentLocation.uniqueKey == OTMClient.Auth.sessionId
+            if let objectId = OTMClient.getStudentObjectId() {
+                return studentLocation.objectId == objectId
+            }
         }
         return false
     }

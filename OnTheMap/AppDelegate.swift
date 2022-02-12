@@ -11,9 +11,15 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //MARK: - Set Student Object Id
+        if let objectId = OTMClient.getStudentObjectId() {
+            print("// Saved objectId: ", objectId, " //")
+            OTMClient.Auth.objectId = objectId
+        }
+        
         return true
     }
 

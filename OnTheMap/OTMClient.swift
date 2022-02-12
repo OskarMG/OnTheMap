@@ -10,6 +10,8 @@ import UIKit
 class OTMClient {
     
     //MARK: - Properties
+    static private let defaults = UserDefaults.standard
+    
     struct Auth {
         static var id = ""
         static var objectId = ""
@@ -37,7 +39,7 @@ class OTMClient {
                 case .getUser: return Endpoint.base + "/users/" + Auth.sessionId
                 case .studentLocationList: return Endpoint.base + "/StudentLocation"
                 case .updateStudentLocation(let id): return Endpoint.base + "/StudentLocation/\(id)"
-                case .getStudentLocationListByLimit(let limit): return Endpoint.base + "/StudentLocation?limit=\(limit)"
+                case .getStudentLocationListByLimit(let limit): return Endpoint.base + "/StudentLocation?limit=\(limit)&order=-updatedAt"
                 case .getStudentLocation(let uniqueKey): return Endpoint.base + "/StudentLocation?uniqueKey=\(uniqueKey)"
             }
         }
@@ -74,7 +76,7 @@ class OTMClient {
         do {
             request.httpBody = try JSONEncoder().encode(body)
             URLSession.shared.dataTask(with: request) { data, response, error in
-                if let _ = error { completion(.failure(.unableToComplete)); return }
+                if let error = error { completion(.failure(.unableToComplete)); return }
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                     completion(.failure(.invalidResponse)); return
                 }
@@ -85,16 +87,26 @@ class OTMClient {
                 do {
                     let responseObjc = try JSONDecoder().decode(responseType.self, from: data)
                     completion(.success(responseObjc))
-                } catch { completion(.failure(.unableToComplete)) }
+                } catch {
+                    
+                    let body = String(data: data, encoding: String.Encoding.utf8)
+                    print(body)
+                    
+                    completion(.failure(.unableToComplete))
+                }
             }.resume()
         } catch { completion(.failure(.unableToComplete)) }
     }
     
     
+    //MARK: - UserDefaults Methods
+    class private func saveObjectId() { defaults.set(Auth.objectId, forKey: "objectId") }
+    class func getStudentObjectId() -> String? { return defaults.object(forKey: "objectId") as? String }
+    
     
     //MARK: - On The Map Network Calls
     class func getStudentLocations(completion: @escaping((Result<StudentResults, OTMError>)->Void)) {
-        taskForGetRequest(url: Endpoint.studentLocationList.url, responseType: StudentResults.self) { result in
+        taskForGetRequest(url: Endpoint.getStudentLocationListByLimit(100).url, responseType: StudentResults.self) { result in
             DispatchQueue.main.async { completion(result) }
         }
     }
@@ -103,7 +115,8 @@ class OTMClient {
         taskForPostRequest(url: Endpoint.studentLocationList.url, body: body, responseType: StudentLocationPostResponse.self) { result in
             switch result {
                 case .success(let response): DispatchQueue.main.async {
-                    print("addStudentLocation response:", response)
+                    Auth.objectId = response.objectId
+                    self.saveObjectId()
                     completion(true, nil)
                 }
                 case .failure(let error): DispatchQueue.main.async { completion(false, error) }
@@ -112,10 +125,19 @@ class OTMClient {
     }
     
     class func updateStudentLocation(body: StudentLocationRequest, completion: @escaping((Bool, OTMError?)->Void)) {
+        
+        print("\n update PUT method, URL: ", Endpoint.updateStudentLocation(Auth.sessionId).url, "\n")
+        
         taskForPostRequest(url: Endpoint.updateStudentLocation(Auth.sessionId).url, httpMethod: .put, body: body, responseType: StudentLocationPutResponse.self) { result in
             switch result {
-                case .success: DispatchQueue.main.async { completion(true, nil) }
-                case .failure(let error): DispatchQueue.main.async { completion(false, error) }
+                case .success(let result):
+                    DispatchQueue.main.async {
+                        print("result: ", result)
+                        completion(true, nil)
+                    }
+                case .failure(let error):
+                    print(error)
+                    DispatchQueue.main.async { completion(false, error) }
             }
         }
     }
@@ -128,9 +150,7 @@ class OTMClient {
                     if sessionResp.account.registered {
                         Auth.id = sessionResp.session.id 
                         Auth.sessionId = sessionResp.account.key
-                        print("My sessionId", Auth.sessionId)
                     }
-                
                     DispatchQueue.main.async { completion(sessionResp.account.registered, nil) }
                 case .failure(let error): DispatchQueue.main.async { completion(false, error) }
             }

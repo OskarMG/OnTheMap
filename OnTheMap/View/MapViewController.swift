@@ -55,7 +55,7 @@ class MapViewController: OnTheMapNavControls {
             
             let annotation = MKPointAnnotation()
             annotation.title = "\(studentLocation.firstName) \(studentLocation.lastName)"
-            annotation.subtitle = studentLocation.mediaURL
+            annotation.subtitle = studentLocation.mediaURL.isEmpty ? studentLocation.mapString : studentLocation.mediaURL
             annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             annotations.append(annotation)
         }
