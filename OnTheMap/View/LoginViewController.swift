@@ -53,11 +53,11 @@ class LoginViewController: UIViewController {
     private func handleLoginResponse(success: Bool, error: OTMError?) {
         setLoggingIn(false)
         if success {
-            print("\n\n// SUCCESS LOGIN //\n\n")
+            debugPrint("\n\n// SUCCESS LOGIN //\n\n")
             self.performSegue(withIdentifier: "Authenticated", sender: self)
         } else {
             if let error = error {
-                print("\n\n// LOGIN ERROR //\n\(error.rawValue)\n\n")
+                debugPrint("\n\n// LOGIN ERROR //\n\(error.rawValue)\n\n")
                 showAlert(title: OTMError.loginFailure, message: error.rawValue)
             }
         }
