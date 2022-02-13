@@ -16,10 +16,12 @@ enum OTMError: String, Error {
     //MARK: - Errors Body
     case invalidResponse  = "Invalid response from the server. Please try again."
     case unableToComplete = "Unable to complete your request. Please check your internet connection."
+    case couldNotUpdate   = "Couldn't update your location, please try again."
     case invalidData      = "Data received from the server was invalid. Please try again."
     
     case unableToLogin    = "Unable to login, check your email or password. 😬"
     
+    case unableToSubmitRequest = "Unable to submit request."
     case unableToOpenUrl = "Unable to open URL."
     case invalidUrl = "Invalid URL, please insert a valid URL."
     case missingUserCredential = "User credentials are missing."

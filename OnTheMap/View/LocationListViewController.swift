@@ -38,7 +38,9 @@ class LocationListViewController: OnTheMapNavControls {
     }
     
     
-    //MARK: - Events    
+    //MARK: - Events
+    override func callAnimate(_ flag: Bool) { animate(activityIndicator: activityIndicator, flag) }
+    
     override func handleRefreshTap() {
         animate(activityIndicator: activityIndicator, true)
         OTMClient.getStudentLocations(completion: handleStudentResponse)
@@ -67,6 +69,9 @@ extension LocationListViewController: UITableViewDelegate, UITableViewDataSource
         
         let studentLocation = StudentModel.locationList[indexPath.row]
         guard let url = URL(string: studentLocation.mediaURL), url.isValid() else {
+            if let url = URL(string: studentLocation.mapString), url.isValid() {
+                self.presentSafariVC(width: url); return
+            }
             self.showAlert(title: "Invalid URL", message: OTMError.unableToOpenUrl.rawValue)
             return
         }

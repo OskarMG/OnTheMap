@@ -24,6 +24,7 @@ class StudentLocationViewController: UIViewController {
     @IBOutlet weak var onTheMapFindBtn: UIButton!
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var locationContainerView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var locationContViewYConstraints: NSLayoutConstraint!
     @IBOutlet weak var textFieldYConstraint: NSLayoutConstraint!
@@ -99,6 +100,7 @@ class StudentLocationViewController: UIViewController {
     }
     
     private func handleStudentActionResponse(success: Bool, error: OTMError?) {
+        animate(activityIndicator: activityIndicator, false)
         if success { dismiss(animated: true) { self.delegate?.handleRefreshTap() } }
         else { if let error = error { showAlert(title: OTMError.somethingWentWrong, message: error.rawValue) } }
     }
@@ -121,14 +123,12 @@ class StudentLocationViewController: UIViewController {
     
     @IBAction func onSubmitTap(_ sender: UIButton) {
         if let text = textField.text, text != Message.insertLink, !text.isOnlyWhiteSpaces(), let url = URL(string: text), url.isValid() {
+            animate(activityIndicator: activityIndicator, true)
             studentRequest.mediaURL = textField.text ?? ""
-            
-            print("\n\n // Submitted StudentLocation Request: //", studentRequest, "\n\n")
-            
             switch studentLocationAction {
                 case .add: OTMClient.addStudentLocation(body: studentRequest, completion: handleStudentActionResponse)
                 case .override: OTMClient.updateStudentLocation(body: studentRequest, completion: handleStudentActionResponse)
-                default: showAlert(title: OTMError.somethingWentWrong)
+                default: showAlert(title: OTMError.somethingWentWrong); animate(activityIndicator: activityIndicator, false)
             }
         } else { showAlert(title: OTMError.somethingWentWrong, message: OTMError.invalidUrl.rawValue) }
     }

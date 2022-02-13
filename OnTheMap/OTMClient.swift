@@ -21,13 +21,14 @@ class OTMClient {
     private enum HttpMethods: String {
         case put  = "PUT"
         case post = "POST"
+        case delete = "DELETE"
     }
     
     private enum Endpoint {
         static let base = "https://onthemap-api.udacity.com/v1"
     
         case getUser
-        case createSessionId
+        case createSession
         case studentLocationList
         case updateStudentLocation(String)
         case getStudentLocation(String)
@@ -35,7 +36,7 @@ class OTMClient {
         
         private var stringValue: String {
             switch self {
-                case .createSessionId: return Endpoint.base + "/session"
+                case .createSession: return Endpoint.base + "/session"
                 case .getUser: return Endpoint.base + "/users/" + Auth.sessionId
                 case .studentLocationList: return Endpoint.base + "/StudentLocation"
                 case .updateStudentLocation(let id): return Endpoint.base + "/StudentLocation/\(id)"
@@ -49,6 +50,14 @@ class OTMClient {
     
     
     //MARK: - Private Methods
+    private class func formatString(strData: String, completion: @escaping((Data?)->Void)) {
+        let trash = ")]}\'\n"
+        if strData.contains(trash) {
+            let result = strData.replacingOccurrences(of: trash, with: "")
+            completion(Data(result.utf8))
+        } else { completion(nil) }
+    }
+    
     private class func taskForGetRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping((Result<ResponseType, OTMError>)->Void)) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error { completion(.failure(.unableToComplete)); return }
@@ -70,13 +79,20 @@ class OTMClient {
     private class func taskForPostRequest<RequestType: Encodable, ResponseType: Decodable>(url: URL, httpMethod: HttpMethods = .post, body: RequestType, creatingSession flag: Bool = false, responseType: ResponseType.Type, completion: @escaping((Result<ResponseType, OTMError>)->Void)) {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if httpMethod == .delete {
+            var xsrfCookie: HTTPCookie? = nil
+            let sharedCookieStorage = HTTPCookieStorage.shared
+            for cookie in sharedCookieStorage.cookies! { if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie } }
+            if let xsrfCookie = xsrfCookie { request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN") }
+        } else { request.addValue("application/json", forHTTPHeaderField: "Content-Type") }
+        
         if flag { request.addValue("application/json", forHTTPHeaderField: "Accept") }
         
         do {
-            request.httpBody = try JSONEncoder().encode(body)
+            if httpMethod != .delete { request.httpBody = try JSONEncoder().encode(body) }
             URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error { completion(.failure(.unableToComplete)); return }
+                if let _ = error { completion(.failure(.unableToComplete)); return }
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                     completion(.failure(.invalidResponse)); return
                 }
@@ -88,14 +104,18 @@ class OTMClient {
                     let responseObjc = try JSONDecoder().decode(responseType.self, from: data)
                     completion(.success(responseObjc))
                 } catch {
-                    
-                    let body = String(data: data, encoding: String.Encoding.utf8)
-                    print(body)
-                    
-                    completion(.failure(.unableToComplete))
+                    if let strData = String(data: data, encoding: String.Encoding.utf8) {
+                        formatString(strData: strData) { data in
+                            guard let data = data else { completion(.failure(.invalidData)); return }
+                            do {
+                                let responseObjc = try JSONDecoder().decode(responseType.self, from: data)
+                                completion(.success(responseObjc))
+                            } catch { completion(.failure(.invalidData)) }
+                        }
+                    } else { completion(.failure(.invalidData)) }
                 }
             }.resume()
-        } catch { completion(.failure(.unableToComplete)) }
+        } catch { completion(.failure(.unableToSubmitRequest)) }
     }
     
     
@@ -125,26 +145,17 @@ class OTMClient {
     }
     
     class func updateStudentLocation(body: StudentLocationRequest, completion: @escaping((Bool, OTMError?)->Void)) {
-        
-        print("\n update PUT method, URL: ", Endpoint.updateStudentLocation(Auth.sessionId).url, "\n")
-        
-        taskForPostRequest(url: Endpoint.updateStudentLocation(Auth.sessionId).url, httpMethod: .put, body: body, responseType: StudentLocationPutResponse.self) { result in
+        taskForPostRequest(url: Endpoint.updateStudentLocation(Auth.objectId).url, httpMethod: .put, body: body, responseType: StudentLocationPutResponse.self) { result in
             switch result {
-                case .success(let result):
-                    DispatchQueue.main.async {
-                        print("result: ", result)
-                        completion(true, nil)
-                    }
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async { completion(false, error) }
+                case .success: DispatchQueue.main.async { completion(true, nil) }
+                case .failure(let error): DispatchQueue.main.async { completion(false, error) }
             }
         }
     }
     
     class func createSession(username: String, password: String, completion: @escaping((Bool, OTMError?)->Void)) {
         let body = SessionRequest(udacity: [SessionRequest.email: username, SessionRequest.pass: password])
-        taskForPostRequest(url: Endpoint.createSessionId.url, httpMethod: .post, body: body, creatingSession: true, responseType: SessionResponse.self) { result in
+        taskForPostRequest(url: Endpoint.createSession.url, httpMethod: .post, body: body, creatingSession: true, responseType: SessionResponse.self) { result in
             switch result {
                 case .success(let sessionResp):
                     if sessionResp.account.registered {
@@ -168,6 +179,23 @@ class OTMClient {
                         completion(true, nil)
                     }
                 case .failure(let error): DispatchQueue.main.async { completion(false, error) }
+            }
+        }
+    }
+    
+    class func logout(completion: @escaping(()->Void)) {
+        taskForPostRequest(url: Endpoint.createSession.url, httpMethod: .delete, body: LogoutRequest(),  responseType: LogoutResponse.self) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    print("\n\n\n// SUCCESS LOGOUT //\n\n\n")
+                    completion()
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    print("\n\n\n// LOGOUT ERROR: //\n", error.localizedDescription, "\n\n\n")
+                    completion()
+                }
             }
         }
     }

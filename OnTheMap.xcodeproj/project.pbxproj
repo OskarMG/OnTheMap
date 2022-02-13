@@ -25,6 +25,8 @@
 		2218FD5C27B695970024BAD6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5B27B695970024BAD6 /* Message.swift */; };
 		2218FD5E27B6FBDA0024BAD6 /* StudentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5D27B6FBDA0024BAD6 /* StudentLocationViewController.swift */; };
 		2218FD6027B81A660024BAD6 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5F27B81A660024BAD6 /* UserResponse.swift */; };
+		2218FD6227B867390024BAD6 /* LogoutResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD6127B867390024BAD6 /* LogoutResponse.swift */; };
+		2218FD6427B86AD40024BAD6 /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */; };
 		22A564D127B46270006332C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A564D027B46270006332C9 /* AppDelegate.swift */; };
 		22A564D327B46270006332C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A564D227B46270006332C9 /* SceneDelegate.swift */; };
 		22A564D827B46270006332C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22A564D627B46270006332C9 /* Main.storyboard */; };
@@ -56,6 +58,8 @@
 		2218FD5B27B695970024BAD6 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2218FD5D27B6FBDA0024BAD6 /* StudentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationViewController.swift; sourceTree = "<group>"; };
 		2218FD5F27B81A660024BAD6 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
+		2218FD6127B867390024BAD6 /* LogoutResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutResponse.swift; sourceTree = "<group>"; };
+		2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
 		22A564CD27B46270006332C9 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22A564D027B46270006332C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22A564D227B46270006332C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				2218FD4A27B5B6ED0024BAD6 /* StudentLocationPostResponse.swift */,
 				2218FD4E27B5BA890024BAD6 /* StudentLocationPutResponse.swift */,
 				2218FD5227B5C27B0024BAD6 /* SessionResponse.swift */,
+				2218FD6127B867390024BAD6 /* LogoutResponse.swift */,
 			);
 			name = "OTM Response";
 			sourceTree = "<group>";
@@ -126,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				2218FD5427B5D12D0024BAD6 /* SessionRequest.swift */,
+				2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */,
 				2218FD5027B5BAFE0024BAD6 /* StudentLocationRequest.swift */,
 			);
 			name = "OTM Requests";
@@ -287,9 +293,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				22A564F027B474EC006332C9 /* UIViewController+Extension.swift in Sources */,
+				2218FD6427B86AD40024BAD6 /* LogoutRequest.swift in Sources */,
 				2218FD4727B59EAD0024BAD6 /* OTMPinAnnotationView.swift in Sources */,
 				2218FD5A27B5E5D00024BAD6 /* StudentLocationTableViewCell.swift in Sources */,
 				2218FD4027B56E590024BAD6 /* StudentResults.swift in Sources */,
+				2218FD6227B867390024BAD6 /* LogoutResponse.swift in Sources */,
 				2218FD3E27B56C200024BAD6 /* StudentModel.swift in Sources */,
 				2218FD5E27B6FBDA0024BAD6 /* StudentLocationViewController.swift in Sources */,
 				2218FD3927B569790024BAD6 /* StudentLocation.swift in Sources */,
@@ -467,7 +475,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -498,7 +506,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

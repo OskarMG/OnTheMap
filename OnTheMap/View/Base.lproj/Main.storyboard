@@ -480,6 +480,13 @@
                                     <action selector="onCancelButtonTap:" destination="Mcm-Me-AAs" eventType="touchUpInside" id="il2-G6-Fqa"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Gv3-9P-GeL">
+                                <rect key="frame" x="194.5" y="435.5" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="fxC-7X-PAT"/>
+                                    <constraint firstAttribute="height" constant="25" id="z6J-cc-gGg"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="awO-Hf-qa6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -490,6 +497,7 @@
                             <constraint firstItem="qR8-gb-BaB" firstAttribute="top" secondItem="qLj-e9-RCx" secondAttribute="bottom" id="AM0-Y0-J4R"/>
                             <constraint firstItem="qLj-e9-RCx" firstAttribute="leading" secondItem="u6b-1L-CWj" secondAttribute="leading" id="DIN-mC-3RN"/>
                             <constraint firstItem="JBJ-r6-JPQ" firstAttribute="top" secondItem="awO-Hf-qa6" secondAttribute="top" constant="15" id="Fgc-Y9-op6"/>
+                            <constraint firstItem="Gv3-9P-GeL" firstAttribute="centerY" secondItem="u6b-1L-CWj" secondAttribute="centerY" id="JhH-6D-OlR"/>
                             <constraint firstItem="qR8-gb-BaB" firstAttribute="trailing" secondItem="awO-Hf-qa6" secondAttribute="trailing" id="Nod-Ow-cfz"/>
                             <constraint firstAttribute="trailing" secondItem="qLj-e9-RCx" secondAttribute="trailing" id="Rgg-lt-glV"/>
                             <constraint firstItem="awO-Hf-qa6" firstAttribute="trailing" secondItem="Fmf-KH-Rzo" secondAttribute="trailing" id="WTk-8b-aDN"/>
@@ -498,9 +506,11 @@
                             <constraint firstItem="qLj-e9-RCx" firstAttribute="height" secondItem="u6b-1L-CWj" secondAttribute="height" multiplier="0.333" id="maC-uI-dIz"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Fmf-KH-Rzo" secondAttribute="bottom" id="odp-Vn-FcW"/>
                             <constraint firstItem="qR8-gb-BaB" firstAttribute="centerY" secondItem="u6b-1L-CWj" secondAttribute="centerY" id="rso-fY-2nl"/>
+                            <constraint firstItem="Gv3-9P-GeL" firstAttribute="centerX" secondItem="u6b-1L-CWj" secondAttribute="centerX" id="vga-Fz-xfR"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="Gv3-9P-GeL" id="M1Z-rl-5Gn"/>
                         <outlet property="cancelBtn" destination="JBJ-r6-JPQ" id="qw1-KR-Ckt"/>
                         <outlet property="locationContViewYConstraints" destination="rso-fY-2nl" id="6Ac-Cc-fBR"/>
                         <outlet property="locationContainerView" destination="qR8-gb-BaB" id="4Ey-OF-hLL"/>

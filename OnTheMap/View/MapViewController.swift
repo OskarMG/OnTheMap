@@ -28,8 +28,6 @@ class MapViewController: OnTheMapNavControls {
         mapView.register(OTMPinAnnotationView.self, forAnnotationViewWithReuseIdentifier: OTMPinAnnotationView.reuseId)
     }
     
-    
-    
     private func handleStudentResponse(result: Result<StudentResults, OTMError>) {
         animate(activityIndicator: activityIndicator, false)
         switch result {
@@ -66,12 +64,12 @@ class MapViewController: OnTheMapNavControls {
     
     
     //MARK: - Events
+    override func callAnimate(_ flag: Bool) { animate(activityIndicator: activityIndicator, flag) }
+    
     override func handleRefreshTap() {
         animate(activityIndicator: activityIndicator, true)
         OTMClient.getStudentLocations(completion: handleStudentResponse)
     }
-    
-    
 }
 
 

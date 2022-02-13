@@ -15,5 +15,4 @@ struct SessionRequest: Codable {
     static let pass  = "password"
     
     let udacity: [String : String]
-    
 }

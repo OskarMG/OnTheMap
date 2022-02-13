@@ -16,7 +16,8 @@ class OnTheMapNavControls: UIViewController {
         addStudentLocation(action: .add)
     }
     
-    func handleRefreshTap() { }
+    func callAnimate(_ flag: Bool) {}
+    func handleRefreshTap() {}
     func addStudentLocation(action: StudentLocationAction) {
         if let studentLocationVC = storyboard?.instantiateViewController(withIdentifier: StudentLocationViewController.identifier) as? StudentLocationViewController {
             studentLocationVC.delegate = self
@@ -57,7 +58,11 @@ class OnTheMapNavControls: UIViewController {
     
     //MARK: - Events
     @IBAction func onLogoutTap(_ sender: UIBarButtonItem) {
-        DispatchQueue.main.async { self.dismiss(animated: true, completion: nil) }
+        callAnimate(true)
+        OTMClient.logout {
+            self.callAnimate(false)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func onAddButtonTapp(_ sender: UIBarButtonItem)    { handleAddTap() }
