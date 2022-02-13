@@ -23,7 +23,7 @@ extension UIViewController {
             gradientLayer.colors = [top.cgColor, bottom.cgColor]
             gradientLayer.locations = [0.0, 1.0]
             gradientLayer.frame = view.bounds
-            view.layer.insertSublayer(gradientLayer, at:0)
+            view.layer.insertSublayer(gradientLayer, at: 0)
         }
     }
     

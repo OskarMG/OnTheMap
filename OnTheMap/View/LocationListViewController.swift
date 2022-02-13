@@ -20,11 +20,6 @@ class LocationListViewController: OnTheMapNavControls {
         OTMClient.getStudentLocations(completion: handleStudentResponse)
     }
     
-    //MARK: Lock rotation
-    override open var shouldAutorotate: Bool { return false }
-    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .portrait }
-    
-    
     
     //MARK: - Events
     override func callAnimate(_ flag: Bool) { animate(activityIndicator: activityIndicator, flag) }

@@ -17,4 +17,3 @@ extension UIColor {
     
 }
 
-//rgb(223, 227, 238)

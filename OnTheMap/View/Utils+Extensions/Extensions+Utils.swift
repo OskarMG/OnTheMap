@@ -8,9 +8,7 @@
 import UIKit
 
 
-
 extension NSLayoutConstraint {
-    
     //MARK: Change NSLayoutConstraint Multiplier Property
     func changeMultiplier(multiplier: CGFloat) -> NSLayoutConstraint {
         let newConstraint = NSLayoutConstraint(
@@ -25,10 +23,8 @@ extension NSLayoutConstraint {
 
         NSLayoutConstraint.deactivate([self])
         NSLayoutConstraint.activate([newConstraint])
-
         return newConstraint
     }
-    
 }
 
 //MARK: Defines the action when adding or editing a StudentLocation
@@ -43,9 +39,7 @@ extension URL {
 
 
 extension String {
-    
     func isOnlyWhiteSpaces() -> Bool {
         return self.trimmingCharacters(in: .whitespaces).isEmpty
     }
-    
 }

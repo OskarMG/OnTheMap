@@ -23,8 +23,6 @@ class LoginViewController: UIViewController {
     
     //MARK: Lock rotation
     override open var shouldAutorotate: Bool { return false }
-    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .portrait }
-    
     
     //MARK: - Private Methods
     private func configureVC() {
@@ -78,4 +76,15 @@ class LoginViewController: UIViewController {
     @IBAction func onSignUpTap(_ sender: UIButton) {
         if let url = URL(string: OTMClient.udacitySignUp), url.isValid() { UIApplication.shared.open(url) }
     }
+}
+
+
+//MARK: - UITextFieldDelegate
+extension LoginViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        dismissKeyboard()
+        return true
+    }
+    
 }
