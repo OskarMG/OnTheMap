@@ -17,11 +17,13 @@ class MapViewController: OnTheMapNavControls {
     //MARK: - View Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureVC()
         OTMClient.getStudentLocations(completion: handleStudentResponse)
     }
     
+    //MARK: Lock rotation
+    override open var shouldAutorotate: Bool { return false }
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .portrait }
     
     //MARK: - Private Methods
     private func configureVC() {

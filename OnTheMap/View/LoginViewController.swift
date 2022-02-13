@@ -21,6 +21,10 @@ class LoginViewController: UIViewController {
         configureVC()
     }
     
+    //MARK: Lock rotation
+    override open var shouldAutorotate: Bool { return false }
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .portrait }
+    
     
     //MARK: - Private Methods
     private func configureVC() {
@@ -46,14 +50,18 @@ class LoginViewController: UIViewController {
         return false
     }
     
-    private func handleUserResponse() {
-        
-    }
+    private func handleUserResponse() {}
     
     private func handleLoginResponse(success: Bool, error: Error?) {
         setLoggingIn(false)
-        if success { self.performSegue(withIdentifier: "Authenticated", sender: self) }
-        else { showAlert(title: OTMError.loginFailure, message: OTMError.unableToLogin.rawValue) }
+        if success {
+            print("\n\n// SUCCESS LOGIN //\n\n")
+            self.performSegue(withIdentifier: "Authenticated", sender: self)
+        }
+        else {
+            if let error = error { print("\n\n// LOGOUT ERROR //\n", error, "\n\n") }
+            showAlert(title: OTMError.loginFailure, message: OTMError.unableToLogin.rawValue)
+        }
     }
     
     
@@ -64,14 +72,10 @@ class LoginViewController: UIViewController {
         if isValidUserCredentials() {
             setLoggingIn(true)
             OTMClient.createSession(username: emailTextField.text!, password: passwordTextField.text!, completion: handleLoginResponse)
-            
-//            #warning("REMEMBER UNCOMMENT LINE ABOVE AND DELETE SEGUE BELOW 👇")
-//            self.performSegue(withIdentifier: "Authenticated", sender: self)
-            
         } else { self.showAlert(title: OTMError.loginFailure,message: OTMError.missingUserCredential.rawValue) }
     }
     
     @IBAction func onSignUpTap(_ sender: UIButton) {
-        //TODO: - Go To Udacity.com
+        if let url = URL(string: OTMClient.udacitySignUp), url.isValid() { UIApplication.shared.open(url) }
     }
 }

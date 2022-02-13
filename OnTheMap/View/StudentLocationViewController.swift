@@ -36,9 +36,13 @@ class StudentLocationViewController: UIViewController {
     //MARK: - View Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureVC()
     }
+    
+    
+    //MARK: Lock rotation
+    override open var shouldAutorotate: Bool { return false }
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .portrait }
     
     
     //MARK: - Private Methods

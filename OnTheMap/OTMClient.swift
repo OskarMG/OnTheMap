@@ -11,6 +11,7 @@ class OTMClient {
     
     //MARK: - Properties
     static private let defaults = UserDefaults.standard
+    static let udacitySignUp = "https://auth.udacity.com/sign-up"
     
     struct Auth {
         static var id = ""
@@ -188,12 +189,12 @@ class OTMClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    print("\n\n\n// SUCCESS LOGOUT //\n\n\n")
+                    print("\n\n// SUCCESS LOGOUT //\n\n")
                     completion()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    print("\n\n\n// LOGOUT ERROR: //\n", error.localizedDescription, "\n\n\n")
+                    print("\n\n// LOGOUT ERROR: //\n", error.localizedDescription, "\n\n")
                     completion()
                 }
             }
