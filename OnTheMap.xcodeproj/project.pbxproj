@@ -27,6 +27,7 @@
 		2218FD6027B81A660024BAD6 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5F27B81A660024BAD6 /* UserResponse.swift */; };
 		2218FD6227B867390024BAD6 /* LogoutResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD6127B867390024BAD6 /* LogoutResponse.swift */; };
 		2218FD6427B86AD40024BAD6 /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */; };
+		22A4CC5627B8B4430014E107 /* OTMTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A4CC5527B8B4430014E107 /* OTMTabBarController.swift */; };
 		22A564D127B46270006332C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A564D027B46270006332C9 /* AppDelegate.swift */; };
 		22A564D327B46270006332C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A564D227B46270006332C9 /* SceneDelegate.swift */; };
 		22A564D827B46270006332C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22A564D627B46270006332C9 /* Main.storyboard */; };
@@ -60,6 +61,7 @@
 		2218FD5F27B81A660024BAD6 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
 		2218FD6127B867390024BAD6 /* LogoutResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutResponse.swift; sourceTree = "<group>"; };
 		2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
+		22A4CC5527B8B4430014E107 /* OTMTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTMTabBarController.swift; sourceTree = "<group>"; };
 		22A564CD27B46270006332C9 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22A564D027B46270006332C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22A564D227B46270006332C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		22A564E727B4648D006332C9 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				22A4CC5527B8B4430014E107 /* OTMTabBarController.swift */,
 				2218FD4127B581070024BAD6 /* OnTheMapNavControls.swift */,
 				2218FD3327B54F9A0024BAD6 /* Utils+Extensions */,
 				22A564D627B46270006332C9 /* Main.storyboard */,
@@ -292,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22A4CC5627B8B4430014E107 /* OTMTabBarController.swift in Sources */,
 				22A564F027B474EC006332C9 /* UIViewController+Extension.swift in Sources */,
 				2218FD6427B86AD40024BAD6 /* LogoutRequest.swift in Sources */,
 				2218FD4727B59EAD0024BAD6 /* OTMPinAnnotationView.swift in Sources */,

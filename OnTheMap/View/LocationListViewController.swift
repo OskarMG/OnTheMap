@@ -20,7 +20,6 @@ class LocationListViewController: OnTheMapNavControls {
         OTMClient.getStudentLocations(completion: handleStudentResponse)
     }
     
-    
     //MARK: - Events
     override func callAnimate(_ flag: Bool) { animate(activityIndicator: activityIndicator, flag) }
     

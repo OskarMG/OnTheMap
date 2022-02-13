@@ -292,7 +292,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="y6b-3e-7n8">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="8cI-KA-A0Q" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="8cI-KA-A0Q" customClass="OTMTabBarController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Vqh-1Q-ze0">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
