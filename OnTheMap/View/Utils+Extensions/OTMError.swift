@@ -19,14 +19,15 @@ enum OTMError: String, Error {
     case couldNotUpdate   = "Couldn't update your location, please try again."
     case invalidData      = "Data received from the server was invalid. Please try again."
     
-    case unableToLogin    = "Unable to login, check your email or password. 😬"
+    case badCredentials    = "Unable to login, check your email or password. 😬"
     
+    case invalidUser = "Unable to validate user, please contact Udacity Support. 🤕"
     case unableToSubmitRequest = "Unable to submit request."
     case unableToOpenUrl = "Unable to open URL."
     case invalidUrl = "Invalid URL, please insert a valid URL."
     case missingUserCredential = "User credentials are missing."
     case failedToGetLocationList = "Failed to get student location list."
     
-    case encodingFailure = "Unable to add location, please try again."
+    case encodingFailure  = "Unable to add location, please try again."
     case unableToGetCoord = "Unable to Pin location, insert a valid city name." 
 }

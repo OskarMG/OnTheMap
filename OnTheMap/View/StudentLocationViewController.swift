@@ -88,6 +88,7 @@ class StudentLocationViewController: UIViewController {
         annotation.coordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         mapView.addAnnotations([annotation])
         mapView.setRegion(mkCoordRegion, animated: true)
+        animate(activityIndicator: activityIndicator, false)
     }
     
     private func showMap() {
@@ -116,6 +117,7 @@ class StudentLocationViewController: UIViewController {
     
     @IBAction func onTheMapTap(_ sender: UIButton) {
         if let address = textField.text, address != Message.insertLocation, !address.isOnlyWhiteSpaces() {
+            animate(activityIndicator: activityIndicator, true)
             getCoordinateFrom(address: address, completion: handleCoordinateResponse)
         }
     }
@@ -138,12 +140,13 @@ extension StudentLocationViewController {
     
     func handleCoordinateResponse(_ coordinate: CLLocationCoordinate2D?, _ error: Error?) {
         guard error == nil, let coordinate = coordinate else {
+            animate(activityIndicator: activityIndicator, false)
             self.showAlert(title: OTMError.somethingWentWrong, message: OTMError.unableToGetCoord.rawValue)
             return
         }
         
         self.coordinate = coordinate
-        studentRequest = StudentLocationRequest(uniqueKey: OTMClient.Auth.sessionId, firstName: "Osukaru", lastName: "Martinesu", mapString: textField.text ?? "", mediaURL: "", latitude: coordinate.latitude, longitude: coordinate.longitude)
+        studentRequest = StudentLocationRequest(uniqueKey: OTMClient.Auth.sessionId, firstName: StudentModel.user.firstName, lastName: StudentModel.user.lastName, mapString: textField.text ?? "", mediaURL: "", latitude: coordinate.latitude, longitude: coordinate.longitude)
         showMap()
     }
     

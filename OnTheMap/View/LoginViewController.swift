@@ -50,15 +50,16 @@ class LoginViewController: UIViewController {
     
     private func handleUserResponse() {}
     
-    private func handleLoginResponse(success: Bool, error: Error?) {
+    private func handleLoginResponse(success: Bool, error: OTMError?) {
         setLoggingIn(false)
         if success {
             print("\n\n// SUCCESS LOGIN //\n\n")
             self.performSegue(withIdentifier: "Authenticated", sender: self)
-        }
-        else {
-            if let error = error { print("\n\n// LOGOUT ERROR //\n", error, "\n\n") }
-            showAlert(title: OTMError.loginFailure, message: OTMError.unableToLogin.rawValue)
+        } else {
+            if let error = error {
+                print("\n\n// LOGIN ERROR //\n\(error.rawValue)\n\n")
+                showAlert(title: OTMError.loginFailure, message: error.rawValue)
+            }
         }
     }
     
@@ -70,7 +71,7 @@ class LoginViewController: UIViewController {
         if isValidUserCredentials() {
             setLoggingIn(true)
             OTMClient.createSession(username: emailTextField.text!, password: passwordTextField.text!, completion: handleLoginResponse)
-        } else { self.showAlert(title: OTMError.loginFailure,message: OTMError.missingUserCredential.rawValue) }
+        } else { self.showAlert(title: OTMError.loginFailure, message: OTMError.missingUserCredential.rawValue) }
     }
     
     @IBAction func onSignUpTap(_ sender: UIButton) {

@@ -28,7 +28,7 @@ class OTMClient {
     private enum Endpoint {
         static let base = "https://onthemap-api.udacity.com/v1"
     
-        case getUser
+        case getUser(String)
         case createSession
         case studentLocationList
         case updateStudentLocation(String)
@@ -38,7 +38,7 @@ class OTMClient {
         private var stringValue: String {
             switch self {
                 case .createSession: return Endpoint.base + "/session"
-                case .getUser: return Endpoint.base + "/users/" + Auth.sessionId
+                case .getUser(let id): return Endpoint.base + "/users/" + id
                 case .studentLocationList: return Endpoint.base + "/StudentLocation"
                 case .updateStudentLocation(let id): return Endpoint.base + "/StudentLocation/\(id)"
                 case .getStudentLocationListByLimit(let limit): return Endpoint.base + "/StudentLocation?limit=\(limit)&order=-updatedAt"
@@ -59,19 +59,20 @@ class OTMClient {
         } else { completion(nil) }
     }
     
-    private class func taskForGetRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping((Result<ResponseType, OTMError>)->Void)) {
+    private class func taskForGetRequest<ResponseType: Decodable>(url: URL, getUser flag: Bool = false, responseType: ResponseType.Type, completion: @escaping((Result<ResponseType, OTMError>)->Void)) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error { completion(.failure(.unableToComplete)); return }
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 completion(.failure(.invalidResponse)); return
             }
             
-            guard let data = data else { completion(.failure(.invalidData)); return }
-            let jsonDecoder = JSONDecoder()
-            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard var data = data else { completion(.failure(.invalidData)); return }
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            if flag { data = data.subdata(in: (5..<data.count)) }
             
             do {
-                let responseObjc = try jsonDecoder.decode(responseType.self, from: data)
+                let responseObjc = try decoder.decode(responseType.self, from: data)
                 completion(.success(responseObjc))
             } catch { completion(.failure(.unableToComplete)) }
         }.resume()
@@ -94,8 +95,9 @@ class OTMClient {
             if httpMethod != .delete { request.httpBody = try JSONEncoder().encode(body) }
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let _ = error { completion(.failure(.unableToComplete)); return }
+                
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    completion(.failure(.invalidResponse)); return
+                    completion(.failure(.badCredentials)); return
                 }
                 
                 guard var data = data else { completion(.failure(.invalidData)); return }
@@ -162,27 +164,42 @@ class OTMClient {
                     if sessionResp.account.registered {
                         Auth.id = sessionResp.session.id 
                         Auth.sessionId = sessionResp.account.key
-                    }
-                    DispatchQueue.main.async { completion(sessionResp.account.registered, nil) }
+                        self.getUser { success in
+                            if success {
+                                DispatchQueue.main.async { completion(sessionResp.account.registered, nil) }
+                            } else { DispatchQueue.main.async { completion(false, OTMError.invalidUser) } }
+                        }
+                    } else { DispatchQueue.main.async { completion(false, OTMError.invalidUser) } }
                 case .failure(let error): DispatchQueue.main.async { completion(false, error) }
             }
         }
     }
     
     
-    #warning("I tried to implement this method, but data returned from the server is unusable")
-    class func getUser(completion: @escaping(Bool, OTMError?)->Void) {
-        taskForGetRequest(url: Endpoint.getUser.url, responseType: UserResponse.self) { result in
-            switch result {
-                case .success(let response):
-                    DispatchQueue.main.async {
-                        StudentModel.user = response.user
-                        completion(true, nil)
-                    }
-                case .failure(let error): DispatchQueue.main.async { completion(false, error) }
-            }
-        }
+    class func getUser(completion: @escaping((Bool)->Void)) {
+        let request = URLRequest(url: Endpoint.getUser(Auth.sessionId).url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil, var data = data else { completion(false); return }
+            data = data.subdata(in: (5..<data.count))
+            let str = String(decoding: data, as: UTF8.self)
+            guard let newData = str.data(using: String.Encoding.utf8) else { completion(false); return }
+
+            do {
+                let respo = try JSONSerialization.jsonObject(with: newData, options: []) as? [String:AnyObject] as NSDictionary?
+                if let responseObjc  = respo {
+                    if let key       = responseObjc["key"]        as? String,
+                       let firstName = responseObjc["first_name"] as? String,
+                       let lastName  = responseObjc["last_name"]  as? String,
+                       let imageUrl  = responseObjc["_image_url"] as? String,
+                       let nickname  = responseObjc["nickname"]   as? String {
+                        StudentModel.user = User(key: key, firstName: firstName, lastName: lastName, imageUrl: imageUrl, nickname: nickname)
+                        completion(true)
+                    } else { completion(false) }
+                } else { completion(false) }
+            } catch { completion(false) }
+        }.resume()
     }
+    
     
     class func logout(completion: @escaping(()->Void)) {
         taskForPostRequest(url: Endpoint.createSession.url, httpMethod: .delete, body: LogoutRequest(),  responseType: LogoutResponse.self) { result in

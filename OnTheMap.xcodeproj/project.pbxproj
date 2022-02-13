@@ -24,10 +24,10 @@
 		2218FD5A27B5E5D00024BAD6 /* StudentLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5927B5E5D00024BAD6 /* StudentLocationTableViewCell.swift */; };
 		2218FD5C27B695970024BAD6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5B27B695970024BAD6 /* Message.swift */; };
 		2218FD5E27B6FBDA0024BAD6 /* StudentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5D27B6FBDA0024BAD6 /* StudentLocationViewController.swift */; };
-		2218FD6027B81A660024BAD6 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD5F27B81A660024BAD6 /* UserResponse.swift */; };
 		2218FD6227B867390024BAD6 /* LogoutResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD6127B867390024BAD6 /* LogoutResponse.swift */; };
 		2218FD6427B86AD40024BAD6 /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */; };
 		22A4CC5627B8B4430014E107 /* OTMTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A4CC5527B8B4430014E107 /* OTMTabBarController.swift */; };
+		22A4CC5827B960E00014E107 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A4CC5727B960E00014E107 /* User.swift */; };
 		22A564D127B46270006332C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A564D027B46270006332C9 /* AppDelegate.swift */; };
 		22A564D327B46270006332C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A564D227B46270006332C9 /* SceneDelegate.swift */; };
 		22A564D827B46270006332C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22A564D627B46270006332C9 /* Main.storyboard */; };
@@ -58,10 +58,10 @@
 		2218FD5927B5E5D00024BAD6 /* StudentLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationTableViewCell.swift; sourceTree = "<group>"; };
 		2218FD5B27B695970024BAD6 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2218FD5D27B6FBDA0024BAD6 /* StudentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationViewController.swift; sourceTree = "<group>"; };
-		2218FD5F27B81A660024BAD6 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
 		2218FD6127B867390024BAD6 /* LogoutResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutResponse.swift; sourceTree = "<group>"; };
 		2218FD6327B86AD40024BAD6 /* LogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
 		22A4CC5527B8B4430014E107 /* OTMTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTMTabBarController.swift; sourceTree = "<group>"; };
+		22A4CC5727B960E00014E107 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		22A564CD27B46270006332C9 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22A564D027B46270006332C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22A564D227B46270006332C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +102,7 @@
 		2218FD3A27B5699B0024BAD6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				22A4CC5727B960E00014E107 /* User.swift */,
 				2218FD3D27B56C200024BAD6 /* StudentModel.swift */,
 			);
 			name = Data;
@@ -118,7 +119,6 @@
 		2218FD3C27B56BD70024BAD6 /* OTM Response */ = {
 			isa = PBXGroup;
 			children = (
-				2218FD5F27B81A660024BAD6 /* UserResponse.swift */,
 				2218FD3F27B56E590024BAD6 /* StudentResults.swift */,
 				2218FD3827B569790024BAD6 /* StudentLocation.swift */,
 				2218FD4A27B5B6ED0024BAD6 /* StudentLocationPostResponse.swift */,
@@ -303,12 +303,12 @@
 				2218FD4027B56E590024BAD6 /* StudentResults.swift in Sources */,
 				2218FD6227B867390024BAD6 /* LogoutResponse.swift in Sources */,
 				2218FD3E27B56C200024BAD6 /* StudentModel.swift in Sources */,
+				22A4CC5827B960E00014E107 /* User.swift in Sources */,
 				2218FD5E27B6FBDA0024BAD6 /* StudentLocationViewController.swift in Sources */,
 				2218FD3927B569790024BAD6 /* StudentLocation.swift in Sources */,
 				2218FD5727B5E2D40024BAD6 /* OTMError.swift in Sources */,
 				2218FD3227B488AE0024BAD6 /* LoginTextField.swift in Sources */,
 				22A564F227B479BD006332C9 /* Colors+Extension.swift in Sources */,
-				2218FD6027B81A660024BAD6 /* UserResponse.swift in Sources */,
 				2218FD5527B5D12D0024BAD6 /* SessionRequest.swift in Sources */,
 				22A564EA27B46715006332C9 /* LoginViewController.swift in Sources */,
 				22A564D127B46270006332C9 /* AppDelegate.swift in Sources */,
