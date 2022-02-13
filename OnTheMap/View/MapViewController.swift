@@ -22,7 +22,7 @@ class MapViewController: OnTheMapNavControls {
     }
 
     //MARK: Lock rotation
-    override open var shouldAutorotate: Bool { return false }
+    //override open var shouldAutorotate: Bool { return false }
     
     //MARK: - Private Methods
     private func configureVC() {
